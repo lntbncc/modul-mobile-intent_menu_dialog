@@ -2,8 +2,10 @@ package com.example.intentmodule;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,14 +28,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(usernameEditText.getText().toString().length()!=0 && passwordEditText.getText().toString().length()!=0){
-                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                    intent.putExtra("Username", usernameEditText.getText().toString());
-                    startActivity(intent);
+                    ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                    progressDialog.setTitle("Please Wait...");
+                    progressDialog.setMessage("Loginning");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+
+                    new Handler().postDelayed(() -> {
+                        progressDialog.dismiss();
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        intent.putExtra("Username", usernameEditText.getText().toString());
+                        startActivity(intent);
+                    }, 2000);
                 }else{
                     Toast.makeText(MainActivity.this, "Terdapat kesalahan pada input", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+
 
     }
 }

@@ -1,8 +1,10 @@
 package com.example.intentmodule;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,10 +26,27 @@ public class HomeActivity extends AppCompatActivity {
         int menu = item.getItemId();
         switch (menu){
             case R.id.logout_menu:{
-                Intent intent = new Intent(HomeActivity.this,MainActivity.class);
-                startActivity(intent);
-                Toast.makeText(this,"Logout Successfully",Toast.LENGTH_SHORT).show();
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setTitle("Confirmation").setMessage("You sure to logout?");
+
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(HomeActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(HomeActivity.this,"Logout Successfully",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(HomeActivity.this,"Action cancelled",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 break;
             }
             case R.id.moreinfo_menu:{
